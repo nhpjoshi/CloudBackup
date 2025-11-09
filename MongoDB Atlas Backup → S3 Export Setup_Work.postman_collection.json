@@ -1,0 +1,381 @@
+{
+	"info": {
+		"_postman_id": "5b063c62-dc13-4b5d-8a65-dee93f204736",
+		"name": "MongoDB Atlas Backup → S3 Export Setup_Work",
+		"description": "This collection helps you configure Atlas backup export to AWS S3 via Atlas Admin API v2.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13303778"
+	},
+	"item": [
+		{
+			"name": "1️⃣ List Cloud Provider Access Roles (Get IAM Role ID)",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "5d2cc776-f862-4b9b-b3b3-a389553352b2",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "jyvaogjf",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.atlas.2023-01-01+json"
+					}
+				],
+				"url": {
+					"raw": "cloud.mongodb.com/api/atlas/v2/groups/{{GROUP_ID}}/cloudProviderAccess",
+					"host": [
+						"cloud",
+						"mongodb",
+						"com"
+					],
+					"path": [
+						"api",
+						"atlas",
+						"v2",
+						"groups",
+						"{{GROUP_ID}}",
+						"cloudProviderAccess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2️⃣ Create Export Bucket (S3 Target)",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/vnd.atlas.2023-01-01+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"iamRoleId\": \"68fb4dfe4944130b2db3c928\",\n  \"bucketName\": \"export-bucket0999\",\n  \"cloudProvider\": \"AWS\"\n}"
+				},
+				"url": {
+					"raw": "https://cloud.mongodb.com/api/atlas/v2/groups/{{GROUP_ID}}/backup/exportBuckets",
+					"protocol": "https",
+					"host": [
+						"cloud",
+						"mongodb",
+						"com"
+					],
+					"path": [
+						"api",
+						"atlas",
+						"v2",
+						"groups",
+						"{{GROUP_ID}}",
+						"backup",
+						"exportBuckets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3️⃣ List Snapshots for Cluster",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.atlas.2023-01-01+json"
+					}
+				],
+				"url": {
+					"raw": "cloud.mongodb.com/api/atlas/v2/groups/{{GROUP_ID}}/clusters/{{CLUSTER_NAME}}/backup/snapshots",
+					"host": [
+						"cloud",
+						"mongodb",
+						"com"
+					],
+					"path": [
+						"api",
+						"atlas",
+						"v2",
+						"groups",
+						"{{GROUP_ID}}",
+						"clusters",
+						"{{CLUSTER_NAME}}",
+						"backup",
+						"snapshots"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4️⃣ Export Snapshot to S3",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/vnd.atlas.2023-01-01+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"exportBucketId\": \"{{EXPORT_BUCKET_ID}}\",\n  \"snapshotId\": \"{{SNAPSHOT_ID}}\"\n \n}"
+				},
+				"url": {
+					"raw": "https://cloud.mongodb.com/api/atlas/v2/groups/{{GROUP_ID}}/clusters/{{CLUSTER_NAME}}/backup/exports",
+					"protocol": "https",
+					"host": [
+						"cloud",
+						"mongodb",
+						"com"
+					],
+					"path": [
+						"api",
+						"atlas",
+						"v2",
+						"groups",
+						"{{GROUP_ID}}",
+						"clusters",
+						"{{CLUSTER_NAME}}",
+						"backup",
+						"exports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5️⃣ Monitor Export Jobs",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "5d2cc776-f862-4b9b-b3b3-a389553352b2",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "jyvaogjf",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/vnd.atlas.2023-01-01+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "cloud.mongodb.com/api/atlas/v2/groups/{{GROUP_ID}}/clusters/{{CLUSTER_NAME}}/backup/exports",
+					"host": [
+						"cloud",
+						"mongodb",
+						"com"
+					],
+					"path": [
+						"api",
+						"atlas",
+						"v2",
+						"groups",
+						"{{GROUP_ID}}",
+						"clusters",
+						"{{CLUSTER_NAME}}",
+						"backup",
+						"exports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete-Snapshot",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "password",
+							"value": "5d2cc776-f862-4b9b-b3b3-a389553352b2",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "jyvaogjf",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/vnd.atlas.2023-01-01+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://cloud.mongodb.com/api/atlas/v2/groups/{{GROUP_ID}}/backup/exportBuckets/{exportBucketId}",
+					"protocol": "https",
+					"host": [
+						"cloud",
+						"mongodb",
+						"com"
+					],
+					"path": [
+						"api",
+						"atlas",
+						"v2",
+						"groups",
+						"{{GROUP_ID}}",
+						"backup",
+						"exportBuckets",
+						"{exportBucketId}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "PUBLIC_KEY",
+			"value": "your_public_key_here"
+		},
+		{
+			"key": "PRIVATE_KEY",
+			"value": "your_private_key_here"
+		},
+		{
+			"key": "GROUP_ID",
+			"value": "your_project_id_here"
+		},
+		{
+			"key": "CLUSTER_NAME",
+			"value": "your_cluster_name_here"
+		},
+		{
+			"key": "IAM_ROLE_ID",
+			"value": "your_iam_role_id_here"
+		},
+		{
+			"key": "EXPORT_BUCKET_ID",
+			"value": "your_export_bucket_id_here"
+		},
+		{
+			"key": "SNAPSHOT_ID",
+			"value": "your_snapshot_id_here"
+		}
+	]
+}
