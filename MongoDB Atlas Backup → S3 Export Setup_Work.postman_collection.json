@@ -15,12 +15,12 @@
 					"digest": [
 						{
 							"key": "password",
-							"value": "5d2cc776-f862-4b9b-b3b3-a389553352b2",
+							"value": "",
 							"type": "string"
 						},
 						{
 							"key": "username",
-							"value": "jyvaogjf",
+							"value": "",
 							"type": "string"
 						},
 						{
@@ -92,7 +92,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"iamRoleId\": \"68fb4dfe4944130b2db3c928\",\n  \"bucketName\": \"export-bucket0999\",\n  \"cloudProvider\": \"AWS\"\n}"
+					"raw": "{\n  \"iamRoleId\": \"\",\n  \"bucketName\": \"\",\n  \"cloudProvider\": \"\"\n}"
 				},
 				"url": {
 					"raw": "https://cloud.mongodb.com/api/atlas/v2/groups/{{GROUP_ID}}/backup/exportBuckets",
@@ -241,12 +241,12 @@
 					"digest": [
 						{
 							"key": "password",
-							"value": "5d2cc776-f862-4b9b-b3b3-a389553352b2",
+							"value": "",
 							"type": "string"
 						},
 						{
 							"key": "username",
-							"value": "jyvaogjf",
+							"value": "",
 							"type": "string"
 						},
 						{
@@ -298,12 +298,12 @@
 					"digest": [
 						{
 							"key": "password",
-							"value": "5d2cc776-f862-4b9b-b3b3-a389553352b2",
+							"value": "",
 							"type": "string"
 						},
 						{
 							"key": "username",
-							"value": "jyvaogjf",
+							"value": "",
 							"type": "string"
 						},
 						{
